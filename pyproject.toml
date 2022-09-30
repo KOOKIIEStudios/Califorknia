@@ -11,34 +11,34 @@ requires-python = ">=3.10.0"
 license = { text = "MIT license" }
 authors = [
     { name="Amos Chua" },
-	{ name="Brandon Phu" }
+    { name="Brandon Phu" }
 ]
 maintainers = [
-	{ name="Amos Chua" },
+    { name="Amos Chua" },
     { name="Brandon Phu" }
 ]
 keywords = [
     "2d",
-	"sprite",
-	"rpg",
+    "sprite",
+    "rpg",
     "game",
-	"pygame",
+    "pygame",
 ]
 classifiers = [
-	"Development Status :: 1 - Planning",
-	"Intended Audience :: Developers",
-	"Intended Audience :: Education",
-	"Intended Audience :: End Users/Desktop",
-	"Operating System :: OS Independent",
-	"License :: OSI Approved :: MIT License",
-	"Natural Language :: English",
-	"Programming Language :: Python :: 3.10",
-	"Programming Language :: Python :: 3.11",
-	"Topic :: Games/Entertainment :: Role-Playing",
+    "Development Status :: 1 - Planning",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: End Users/Desktop",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Games/Entertainment :: Role-Playing",
 ]
 dependencies = [
     "pygame >= 2.1.2",
-	"ruamel.yaml >= 0.17.21, < 18.0.0",
+    "ruamel.yaml >= 0.17.21, < 18.0.0",
 ]
 # Don't list test/packaging optional dependencies, since these are Git-side only 
 

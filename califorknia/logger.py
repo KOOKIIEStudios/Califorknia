@@ -15,45 +15,45 @@ LOG_DIR_PATH_2 = Path("califorknia/logs")
 
 
 def get_log_path():
-	if LOG_DIR_PATH_1.exists():
-		return Path(LOG_DIR_PATH_1, "califorknia.log")
-	return Path(LOG_DIR_PATH_2, "califorknia.log")
+    if LOG_DIR_PATH_1.exists():
+        return Path(LOG_DIR_PATH_1, "califorknia.log")
+    return Path(LOG_DIR_PATH_2, "califorknia.log")
 
 
 def get_console_handler() -> logging.Handler:
-	console_handler = logging.StreamHandler(sys.stdout)
-	console_handler.setFormatter(FORMATTER)
-	return console_handler
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setFormatter(FORMATTER)
+    return console_handler
 
 
 def get_file_handler() -> logging.Handler:
-	file_handler = TimedRotatingFileHandler(get_log_path(), when='midnight')
-	file_handler.setFormatter(FORMATTER)
-	return file_handler
+    file_handler = TimedRotatingFileHandler(get_log_path(), when='midnight')
+    file_handler.setFormatter(FORMATTER)
+    return file_handler
 
 
 class NullHandler(logging.Handler):
-	"""Silent handler"""
+    """Silent handler"""
 
-	def emit(self, record):
-		pass
+    def emit(self, record):
+        pass
 
 
 def get_logger(logger_name: str) -> logging.Logger:
-	logger = logging.getLogger(logger_name)
-	logger.setLevel(logging.DEBUG)
+    logger = logging.getLogger(logger_name)
+    logger.setLevel(logging.DEBUG)
 
-	# Use silent handler if you want to be able to turn logging on and off
-	# h = NullHandler()  # Instantiate with a silent handler that doesn't return anything, since
-	# logger.addHandler(h)  # the logger object from the logging module REQUIRES at least ONE handler
+    # Use silent handler if you want to be able to turn logging on and off
+    # h = NullHandler()  # Instantiate with a silent handler that doesn't return anything, since
+    # logger.addHandler(h)  # the logger object from the logging module REQUIRES at least ONE handler
 
-	# Use default handler in this method, to always have logging on by default:
-	logger.addHandler(get_console_handler())
-	logger.addHandler(get_file_handler())
+    # Use default handler in this method, to always have logging on by default:
+    logger.addHandler(get_console_handler())
+    logger.addHandler(get_file_handler())
 
-	return logger
+    return logger
 
 
 def shutdown_logger() -> None:
-	logging.shutdown()
+    logging.shutdown()
     
