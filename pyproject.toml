@@ -28,7 +28,7 @@ classifiers = [
 	"Development Status :: 1 - Planning",
 	"Intended Audience :: Developers",
 	"Intended Audience :: Education",
-	"Intended Audience :: End Users/Desktop"
+	"Intended Audience :: End Users/Desktop",
 	"Operating System :: OS Independent",
 	"License :: OSI Approved :: MIT License",
 	"Natural Language :: English",
