@@ -2,6 +2,7 @@
 Business logic obtained from https://www.toptal.com/python/in-depth-python-logging
 This is a logger wrapper to log the operations of the program, for debug purposes
 """
+from pathlib import Path
 import sys
 import logging
 from logging.handlers import TimedRotatingFileHandler
@@ -9,7 +10,14 @@ from logging.handlers import TimedRotatingFileHandler
 # Use a config file for these, in larger projects:
 LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 FORMATTER = logging.Formatter(LOG_FORMAT)
-LOG_FILE = "califorknia.log"
+LOG_DIR_PATH_1 = Path("logs")
+LOG_DIR_PATH_2 = Path("califorknia/logs")
+
+
+def get_log_path():
+	if LOG_DIR_PATH_1.exists():
+		return Path(LOG_DIR_PATH_1, "califorknia.log")
+	return Path(LOG_DIR_PATH_2, "califorknia.log")
 
 
 def get_console_handler() -> logging.Handler:
@@ -19,7 +27,7 @@ def get_console_handler() -> logging.Handler:
 
 
 def get_file_handler() -> logging.Handler:
-	file_handler = TimedRotatingFileHandler(LOG_FILE, when='midnight')
+	file_handler = TimedRotatingFileHandler(get_log_path(), when='midnight')
 	file_handler.setFormatter(FORMATTER)
 	return file_handler
 
