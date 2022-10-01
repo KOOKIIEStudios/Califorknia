@@ -10,6 +10,7 @@ from pygame import Surface
 
 import logger
 from constants.direction import Direction
+from entities.entity import Entity
 from entities.npc import Npc
 from entities.player import Player
 from maps import metadata
@@ -65,12 +66,16 @@ class World:
     def _get_player(self):
         return self._player
 
+    def _place_entity_on_map(self, entity: Entity):
+        return self.active_map.place_entity(entity.id, entity.x, entity.y)
+
     def move_player(self, direction: Direction):
         """Update Player and Map objects"""
         player = self._get_player()
+        self.active_map.reset_tile(player.x, player.y)  # clear player from map
         # log.debug(player)
-        player.move(direction)
-        self.active_map.tiles[player.y][player.x] = player.id
+        player.move(direction)  # update player x/y-coord attributes
+        self._place_entity_on_map(player)  # replace player
         # log.debug(self.active_map)
 
     def start_player_run(self):

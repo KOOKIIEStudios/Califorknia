@@ -44,6 +44,9 @@ class Map:
     def place_entity(self, entity_id: int, x: int, y: int):
         self._tiles[y][x] = entity_id
 
+    def reset_tile(self, x: int, y: int):
+        self._tiles[y][x] = 0
+
     def __repr__(self):
         buffer = []
         for row in self._tiles:
