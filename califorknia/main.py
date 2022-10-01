@@ -23,7 +23,6 @@ log.info("Logger loaded.")
 
 
 def main() -> None:
-    log.info("Script entry point.")
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     world = World(screen)
 
@@ -33,6 +32,7 @@ def main() -> None:
     pygame.time.set_timer(events.AUTO_SAVE, 600000)  # 10 min
 
     game_running = True
+    log.info("PyGame loaded. Start running game.")
     while game_running:
         clock.tick(FPS)
         for event in pygame.event.get():
@@ -40,6 +40,7 @@ def main() -> None:
             match event.type:
                 case pygame.QUIT:
                     game_running = False
+                    log.warning("Quit event encountered.")
 
                 case events.MOVE_UP.type:
                     world.move_player(Direction.UP)
@@ -51,12 +52,16 @@ def main() -> None:
                     world.move_player(Direction.RIGHT)
 
                 case events.AUTO_SAVE.type:
+                    log.debug("Progress has been automatically saved.")
                     pass  # TODO: Auto-save function
 
             if listener.is_pause_toggled(event):
-                pass
+                log.debug("Game paused")
+                pass  # TODO: Make it possible to pause the game
+                # Pausing should bring up a dialogue with option to quit/save
             if listener.is_menu_toggled(event):
-                pass
+                log.debug("Menu toggled open/close")
+                pass  # TODO: Open player menu for inventory
             if listener.is_start_running(event):
                 world.start_player_run()
             if listener.is_stop_running(event):
@@ -73,3 +78,4 @@ if __name__ == "__main__":
     # log.info("Starting up!")
     main()
     logger.shutdown_logger()
+    exit("End of Script Reached")

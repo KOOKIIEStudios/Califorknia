@@ -50,6 +50,7 @@ class Player(Entity):
         velocity = self.base_velocity
         if self.run_flag:
             velocity = self.base_velocity * self.run_modifier
+        # log.debug(f"Current player velocity: {velocity}")
         return velocity
 
     def move(self, direction: Direction):
