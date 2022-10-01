@@ -24,6 +24,13 @@ def listen_input() -> None:
         pygame.event.post(events.MOVE_RIGHT)
 
 
+def is_enter_key(event: pygame.event) -> bool:
+    if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_RETURN:
+            return True
+    return False
+
+
 def is_pause_toggled(event: pygame.event) -> bool:
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_ESCAPE:

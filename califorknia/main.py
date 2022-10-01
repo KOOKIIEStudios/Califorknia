@@ -43,25 +43,31 @@ def main() -> None:
                     log.warning("Quit event encountered.")
 
                 case events.MOVE_UP.type:
-                    world.move_player(Direction.UP)
+                    world.handle_direction(Direction.UP)
                 case events.MOVE_DOWN.type:
-                    world.move_player(Direction.DOWN)
+                    world.handle_direction(Direction.DOWN)
                 case events.MOVE_LEFT.type:
-                    world.move_player(Direction.LEFT)
+                    world.handle_direction(Direction.LEFT)
                 case events.MOVE_RIGHT.type:
-                    world.move_player(Direction.RIGHT)
+                    world.handle_direction(Direction.RIGHT)
 
                 case events.AUTO_SAVE.type:
                     log.debug("Progress has been automatically saved.")
                     pass  # TODO: Auto-save function
 
+            if listener.is_enter_key(event):
+                log.debug("Enter key struck")
+                world.handle_selection()
+                # TODO: Make this perform a selection when a menu is open
             if listener.is_pause_toggled(event):
                 log.debug("Game paused")
-                pass  # TODO: Make it possible to pause the game
-                # Pausing should bring up a dialogue with option to quit/save
+                world.toggle_menu_flag()
+                # TODO: Make it possible to pause the game
+                #   Pausing should bring up a menu with the option to quit/save
             if listener.is_menu_toggled(event):
                 log.debug("Menu toggled open/close")
-                pass  # TODO: Open player menu for inventory
+                world.toggle_menu_flag()
+                # TODO: Open player menu for inventory
             if listener.is_start_running(event):
                 world.start_player_run()
             if listener.is_stop_running(event):

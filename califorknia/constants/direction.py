@@ -1,7 +1,8 @@
 """This module holds movement-related enums
 
 When a key-down event or a keypress occurs, the input listener needs to
-convey the direction associated with that key to the player's `_move` method.
+convey the direction associated with that key to the various directional methods
+in Player or World.
 This module is used for conveying the direction in an immutable form that is
 resistant to typos.
 """

@@ -28,6 +28,7 @@ class World:
     """
     _window: Surface
     _active_map: Map
+    _menu_flag: bool = False  # Whether the ESC or Player menu is open
 
     def __init__(self, screen: Surface, selected_map: str = None):
         self._window = screen
@@ -64,6 +65,17 @@ class World:
     def active_map(self, new_map: Map) -> None:
         self._active_map = new_map
 
+    @property
+    def menu_flag(self) -> bool:
+        return self._menu_flag
+
+    @menu_flag.setter
+    def menu_flag(self, new_flag: bool) -> None:
+        self._menu_flag = new_flag
+
+    def toggle_menu_flag(self) -> None:
+        self.menu_flag = not self.menu_flag
+
     def _get_player(self):
         return self._player
 
@@ -71,7 +83,7 @@ class World:
         # TODO: Centre the entity instead of aligning top left
         return self.active_map.place_entity(entity.id, entity.x, entity.y)
 
-    def move_player(self, direction: Direction):
+    def _move_player(self, direction: Direction) -> None:
         """Update Player and Map objects"""
         player = self._get_player()
         self.active_map.reset_tile(player.x, player.y)  # clear player from map
@@ -79,6 +91,14 @@ class World:
         player.move(direction)  # update player x/y-coord attributes
         self._place_entity_on_map(player)  # replace player
         # log.debug(self.active_map)
+
+    def handle_direction(self, direction: Direction) -> None:
+        if not self.menu_flag:
+            return self._move_player(direction)
+        # TODO: Change menu highlight based on direction
+
+    def handle_selection(self):
+        pass  # TODO: Handle menu item selection
 
     def start_player_run(self):
         player = self._get_player()
