@@ -3,7 +3,12 @@
 The Npc class models non-playing characters, like instructional characters
 that give tutorials, shops, and Aliens that can be challenged to battle.
 """
+import logger
+
 from califorknia.entities.entity import Entity
+
+
+log = logger.get_logger(__name__)
 
 
 class Npc(Entity):

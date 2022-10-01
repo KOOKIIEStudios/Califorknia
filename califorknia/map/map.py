@@ -4,7 +4,12 @@
       [] [] [] [] []
       [] [] [] [] [] ]
 """
+import logger
+
 from califorknia.constants import TILE_SIZE, WIDTH, HEIGHT
+
+
+log = logger.get_logger(__name__)
 
 
 class Map:
@@ -28,6 +33,7 @@ class Map:
     def init_tiles(self):
         row = [0 for _ in range(WIDTH // TILE_SIZE)]
         self._tiles = [row for _ in range(HEIGHT // TILE_SIZE)]
+        # log.debug(self._tiles)
 
     @property
     def tiles(self):

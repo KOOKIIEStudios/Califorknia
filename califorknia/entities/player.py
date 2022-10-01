@@ -3,6 +3,7 @@
 The player object implements the various ways that the player of the game
 can interact with the game, such as movement using the arrow keys.
 """
+import logger
 import pygame
 
 from califorknia.entities.direction import Direction
@@ -10,6 +11,9 @@ from califorknia.entities.dishes.dish import Dish
 from califorknia.entities.entity import Entity
 from califorknia.game.item import Item
 from califorknia.map.map import Map
+
+
+log = logger.get_logger(__name__)
 
 
 class Player(Entity):
@@ -53,6 +57,7 @@ class Player(Entity):
                 self.x += 1
 
         self._map.tiles[self.y][self.x] = self
+        # log.debug(self._map.tiles)
         # TODO: This should render the player move over to the new tile
 
     @property

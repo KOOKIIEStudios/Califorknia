@@ -2,6 +2,10 @@
 
 Dishes are collectable/tamable creatures that can be used in battles.
 """
+import logger
+
+
+log = logger.get_logger(__name__)
 
 
 class Dish:
