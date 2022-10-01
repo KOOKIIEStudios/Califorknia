@@ -18,7 +18,6 @@ class Map:
     def init_tiles(self):
         row = [0 for _ in range(WIDTH // TILE_SIZE)]
         self._tiles = [row for _ in range(HEIGHT // TILE_SIZE)]
-        print(self._tiles)
 
     @property
     def tiles(self):
