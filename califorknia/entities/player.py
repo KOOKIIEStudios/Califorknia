@@ -31,6 +31,7 @@ class Player(Entity):
     ):
         super().__init__(name, sprite, pos)
         self._map = map_
+        self._id = 1
 
     def listen_input(self):
         key_pressed = pygame.key.get_pressed()
@@ -59,32 +60,3 @@ class Player(Entity):
         self._map.tiles[self.y][self.x] = self
         # log.debug(self._map.tiles)
         # TODO: This should render the player move over to the new tile
-
-    @property
-    def x(self):
-        """This refers to the column number.
-
-         The tiles on the map are a 2D grid, and this refers to the column
-         number of the tile that the player is currently on.
-         """
-        return self._pos[0]
-
-    @x.setter
-    def x(self, new_x: int):
-        self._set_pos(new_x, self.y)
-
-    @property
-    def y(self):
-        """This refers to the row number.
-
-        The tiles on the map are a 2D grid, and this refers to the row
-        number of the tile that the player is currently on.
-        """
-        return self._pos[1]
-
-    @y.setter
-    def y(self, new_y: int):
-        self._set_pos(self.x, new_y)
-
-    def _set_pos(self, x: int, y: int):
-        self._pos = (x, y)
