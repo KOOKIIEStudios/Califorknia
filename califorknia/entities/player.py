@@ -39,7 +39,6 @@ class Player(Entity):
             self._move(Direction.LEFT)
         if key_pressed[pygame.K_RIGHT] or key_pressed[pygame.K_d]:
             self._move(Direction.RIGHT)
-
         # TODO: Other keys like pause/menu/run
 
     def _move(self, direction: Direction):
@@ -52,11 +51,17 @@ class Player(Entity):
                 self.x -= 1
             case Direction.RIGHT:
                 self.x += 1
-        # TODO: This should render the player move over to the new tile
+
         self._map.tiles[self.y][self.x] = self
+        # TODO: This should render the player move over to the new tile
 
     @property
     def x(self):
+        """This refers to the column number.
+
+         The tiles on the map are a 2D grid, and this refers to the column
+         number of the tile that the player is currently on.
+         """
         return self._pos[0]
 
     @x.setter
@@ -65,6 +70,11 @@ class Player(Entity):
 
     @property
     def y(self):
+        """This refers to the row number.
+
+        The tiles on the map are a 2D grid, and this refers to the row
+        number of the tile that the player is currently on.
+        """
         return self._pos[1]
 
     @y.setter
