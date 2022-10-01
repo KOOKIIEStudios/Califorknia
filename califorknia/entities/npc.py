@@ -16,4 +16,16 @@ class Npc(Entity):
 
     Attributes:
     """
+
+    def __init__(
+        self,
+        entity_id: int,
+        name: str,
+        sprite: str = None,
+        pos: tuple[int, int] = (0, 0),
+    ):
+        super().__init__(entity_id, name, sprite, pos)
+        # TODO: Consider making sprite the Path object for a directory
+        #   Since there will probably be multiple sprites for one NPC
+
     pass

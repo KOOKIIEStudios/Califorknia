@@ -1,0 +1,93 @@
+"""This module holds all objects currently active in the game world
+
+The World object instantiates the other entities, which allows them to not
+need to know about the implementation of each other (i.e. Player does not need
+to know what else is in the map until we tell them).
+"""
+from typing import Any, Union
+
+from pygame import Surface
+
+import logger
+from constants.direction import Direction
+from entities.npc import Npc
+from entities.player import Player
+from maps import metadata
+from maps.map import Map
+
+
+log = logger.get_logger(__name__)
+
+
+class World:
+    """This class holds and interacts with active entities
+
+    The World object instantiates and holds active entities. It also takes in
+    stimulus from external events, and passes them on to the entities it holds.
+    """
+    _window: Surface
+    _active_map: Map
+
+    def __init__(self, screen: Surface, selected_map: str = None):
+        self._window = screen
+        self._active_map = Map(selected_map)
+
+        self._active_npcs: dict[int, Npc] = {}
+        self.init_active_entities(self._active_map.name)
+
+        self._player = Player("Player", pos=(0, 0))
+        self._active_map.place_entity(self._player.id, 10, 5)
+
+    @staticmethod
+    def get_active_entities_ids(selected_map: str) -> dict[int, dict[str, Any]]:
+        """Get the list of NPCs in the current maps"""
+        return metadata.ENTITIES.get(selected_map, {})
+
+    def init_active_entities(self, selected_map: str) -> None:
+        active_entities_attributes = self.get_active_entities_ids(selected_map)
+        # At the moment these are all NPCs:
+        for entity_id, attributes in active_entities_attributes.items():
+            self._active_npcs[entity_id] = Npc(
+                entity_id,
+                attributes.get("name"),
+                attributes.get("sprite"),
+                (attributes.get("x"), attributes.get("y")),
+            )
+
+    @property
+    def active_map(self) -> Map:
+        return self._active_map
+
+    @active_map.setter
+    def active_map(self, new_map: Map) -> None:
+        self._active_map = new_map
+
+    def _get_player(self):
+        return self._player
+
+    def move_player(self, direction: Direction):
+        """Update Player and Map objects"""
+        player = self._get_player()
+        # log.debug(player)
+        player.move(direction)
+        self.active_map.tiles[player.y][player.x] = player.id
+        # log.debug(self.active_map)
+
+    def start_player_run(self):
+        player = self._get_player()
+        player.run_flag = True
+
+    def stop_player_run(self):
+        player = self._get_player()
+        player.run_flag = False
+
+    def get_active_entity(self, entity_id: int) -> Union[Player, Npc, None]:
+        if entity_id == 1:
+            return self._get_player()
+        return self._active_npcs.get(entity_id)
+
+    def render_map(self):
+        for row in self.active_map.tiles:
+            for entity_id in row:
+                if entity_id != 0:
+                    self.get_active_entity(entity_id).render(self._window)

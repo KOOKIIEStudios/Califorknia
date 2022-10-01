@@ -1,16 +1,14 @@
 """This module holds the Player class.
 
-The player object implements the various ways that the player of the game
-can interact with the game, such as movement using the arrow keys.
+The player object implements the various attributes that a player's in-game
+character should have.
 """
 import logger
-import pygame
 
-from califorknia.entities.direction import Direction
+from constants.direction import Direction
 from califorknia.entities.dishes.dish import Dish
 from califorknia.entities.entity import Entity
 from califorknia.game.item import Item
-from califorknia.map.map import Map
 
 
 log = logger.get_logger(__name__)
@@ -20,43 +18,45 @@ class Player(Entity):
     """This class models the single player interacting with the game."""
     _inventory: list[Item] = []
     _dishes: list[Dish] = []
-    _map: Map = None
+    _base_velocity: int = 1
+    _run_modifier: int = 2
+    _run_flag: bool = False  # is currently running
 
     def __init__(
         self,
         name: str,
         sprite: str = None,
         pos: tuple[int, int] = (0, 0),
-        map_: Map = None,
     ):
-        super().__init__(name, sprite, pos)
-        self._map = map_
-        self._id = 1
+        super().__init__(1, name, sprite, pos)
 
-    def listen_input(self):
-        key_pressed = pygame.key.get_pressed()
+    @property
+    def base_velocity(self) -> int:
+        return self._base_velocity
 
-        if key_pressed[pygame.K_UP] or key_pressed[pygame.K_w]:
-            self._move(Direction.UP)
-        if key_pressed[pygame.K_DOWN] or key_pressed[pygame.K_s]:
-            self._move(Direction.DOWN)
-        if key_pressed[pygame.K_LEFT] or key_pressed[pygame.K_a]:
-            self._move(Direction.LEFT)
-        if key_pressed[pygame.K_RIGHT] or key_pressed[pygame.K_d]:
-            self._move(Direction.RIGHT)
-        # TODO: Other keys like pause/menu/run
+    @property
+    def run_modifier(self) -> int:
+        return self._run_modifier
 
-    def _move(self, direction: Direction):
+    @property
+    def run_flag(self) -> bool:
+        return self._run_flag
+
+    @run_flag.setter
+    def run_flag(self, flag: bool):
+        self._run_flag = flag
+
+    def move(self, direction: Direction):
+        velocity = self.base_velocity
+        if self.run_flag:
+            velocity = self.base_velocity * self.run_modifier
         match direction:
             case Direction.UP:
-                self.y -= 1
+                self.y -= velocity
             case Direction.DOWN:
-                self.y += 1
+                self.y += velocity
             case Direction.LEFT:
-                self.x -= 1
+                self.x -= velocity
             case Direction.RIGHT:
-                self.x += 1
-
-        self._map.tiles[self.y][self.x] = self
-        # log.debug(self._map.tiles)
+                self.x += velocity
         # TODO: This should render the player move over to the new tile

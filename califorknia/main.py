@@ -9,12 +9,14 @@ liberate Califorknia.
 
     python califorknia/main.py
 """
+import listener
 import logger
 import pygame
 
-from califorknia.constants import *
-from califorknia.entities.player import Player
-from califorknia.map.map import Map
+from califorknia.constants.constants import *
+import constants.events as events
+from constants.direction import Direction
+from world import World
 
 log = logger.get_logger(__name__)
 log.info("Logger loaded.")
@@ -23,21 +25,43 @@ log.info("Logger loaded.")
 def main() -> None:
     log.info("Script entry point.")
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    orange_county = Map(screen)
-    player = Player("Player", map_=orange_county, pos=(0, 0))
-    orange_county.place_entity(player, 10, 5)
+    world = World(screen)
+
     pygame.init()
     pygame.display.set_caption(WINDOW_NAME)
     clock = pygame.time.Clock()
+    pygame.time.set_timer(events.AUTO_SAVE, 600000)  # 10 min
+
     game_running = True
     while game_running:
         clock.tick(FPS)
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                game_running = False
-        player.listen_input()
+            # log.debug(event.type)
+            match event.type:
+                case pygame.QUIT:
+                    game_running = False
+
+                case events.MOVE_UP.type:
+                    world.move_player(Direction.UP)
+                case events.MOVE_DOWN.type:
+                    world.move_player(Direction.DOWN)
+                case events.MOVE_LEFT.type:
+                    world.move_player(Direction.LEFT)
+                case events.MOVE_RIGHT.type:
+                    world.move_player(Direction.RIGHT)
+
+            if listener.is_pause_toggled(event):
+                pass
+            if listener.is_menu_toggled(event):
+                pass
+            if listener.is_start_running(event):
+                world.start_player_run()
+            if listener.is_stop_running(event):
+                world.stop_player_run()
+
+        listener.listen_input()
         screen.fill((0, 0, 0))
-        orange_county.render_map()
+        world.render_map()
         pygame.display.flip()
     pygame.quit()
 
