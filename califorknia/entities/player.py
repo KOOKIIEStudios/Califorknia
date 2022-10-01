@@ -20,14 +20,17 @@ class Player(Entity):
 
     def listen_input(self):
         key_pressed = pygame.key.get_pressed()
-        if key_pressed[pygame.K_UP]:
+
+        if key_pressed[pygame.K_UP] or key_pressed[pygame.K_w]:
             self._move(Direction.UP)
-        if key_pressed[pygame.K_DOWN]:
+        if key_pressed[pygame.K_DOWN] or key_pressed[pygame.K_s]:
             self._move(Direction.DOWN)
-        if key_pressed[pygame.K_LEFT]:
+        if key_pressed[pygame.K_LEFT] or key_pressed[pygame.K_a]:
             self._move(Direction.LEFT)
-        if key_pressed[pygame.K_RIGHT]:
+        if key_pressed[pygame.K_RIGHT] or key_pressed[pygame.K_d]:
             self._move(Direction.RIGHT)
+
+        # TODO: Other keys like pause/menu/run
 
     def _move(self, direction: Direction):
         match direction:
