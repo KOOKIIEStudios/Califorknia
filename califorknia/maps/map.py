@@ -33,9 +33,8 @@ class Map:
         self.init_tiles()
 
     def init_tiles(self):
-        row = [0 for _ in range(WIDTH // TILE_SIZE)]
-        self._tiles = [row for _ in range(HEIGHT // TILE_SIZE)]
-        # log.debug(self._tiles)
+        self._tiles = [[0 for _ in range(WIDTH // TILE_SIZE)] for _ in range(HEIGHT // TILE_SIZE)]
+        # log.debug(self)
 
     @property
     def tiles(self):
@@ -50,15 +49,15 @@ class Map:
     def __repr__(self):
         buffer = [
             "Active Map Contents:\n",
-            "      01    02    03    04    05    06    07    08    09"
-            "    10    11     12    13    14    15    16  \n"
+            "       00     01     02     03     04     05     06     07     08"
+            "     09     10     11     12     13     14     15  \n"
         ]
         for index, row in enumerate(self._tiles):
             buffer.append(f"{index:02}  ")
-            buffer.extend(["|  " + str(element) + "  " for element in row])
+            buffer.extend([f"|  {element:02}  " for element in row])
             buffer.append("|\n")
         buffer.append(
-            "      01    02    03    04    05    06    07    08    09"
-            "    10    11     12    13    14    15    16  \n"
+            "       00     01     02     03     04     05     06     07     08"
+            "     09     10     11     12     13     14     15  \n"
         )
         return "".join(buffer)
