@@ -126,6 +126,7 @@ class World:
             self.get_active_entity(entity_id).render(self._window)
 
     def render_map(self) -> None:
+        self._window.fill((0, 0, 0))  # clear the screen before drawing entities
         for row in self.active_map.tiles:
             for entity_id in row:
                 self._render_entity(entity_id)

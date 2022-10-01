@@ -25,10 +25,10 @@ log.info("Logger loaded.")
 def main() -> None:
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     world = World(screen)
+    clock = pygame.time.Clock()
 
     pygame.init()
     pygame.display.set_caption(WINDOW_NAME)
-    clock = pygame.time.Clock()
     pygame.time.set_timer(events.AUTO_SAVE, 600000)  # 10 min
 
     game_running = True
@@ -69,12 +69,13 @@ def main() -> None:
                 world.toggle_menu_flag()
                 # TODO: Open player menu for inventory
             if listener.is_start_running(event):
+                log.debug("Player started running")
                 world.start_player_run()
             if listener.is_stop_running(event):
+                log.debug("Player stopped running")
                 world.stop_player_run()
 
         listener.listen_input()
-        screen.fill((0, 0, 0))
         world.render_map()
         pygame.display.flip()
     pygame.quit()
