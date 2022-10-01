@@ -48,8 +48,17 @@ class Map:
         self._tiles[y][x] = 0
 
     def __repr__(self):
-        buffer = []
-        for row in self._tiles:
+        buffer = [
+            "Active Map Contents:\n",
+            "      01    02    03    04    05    06    07    08    09"
+            "    10    11     12    13    14    15    16  \n"
+        ]
+        for index, row in enumerate(self._tiles):
+            buffer.append(f"{index:02}  ")
             buffer.extend(["|  " + str(element) + "  " for element in row])
-            buffer.append("\n")
+            buffer.append("|\n")
+        buffer.append(
+            "      01    02    03    04    05    06    07    08    09"
+            "    10    11     12    13    14    15    16  \n"
+        )
         return "".join(buffer)

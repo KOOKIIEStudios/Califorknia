@@ -46,10 +46,14 @@ class Player(Entity):
     def run_flag(self, flag: bool):
         self._run_flag = flag
 
-    def move(self, direction: Direction):
+    def _get_velocity(self):
         velocity = self.base_velocity
         if self.run_flag:
             velocity = self.base_velocity * self.run_modifier
+        return velocity
+
+    def move(self, direction: Direction):
+        velocity = self._get_velocity()
         match direction:
             case Direction.UP:
                 self.y -= velocity
@@ -60,3 +64,10 @@ class Player(Entity):
             case Direction.RIGHT:
                 self.x += velocity
         # TODO: This should render the player move over to the new tile
+
+    def __repr__(self):
+        text = f"Player([id: {self.id}, name: {self.name}, " \
+               f"sprite: {self._sprite}, pos: {self._pos}, " \
+               f"velocity: {self._get_velocity()}, dishes: TODO, " \
+               f"items: TODO])"
+        return text

@@ -28,4 +28,7 @@ class Npc(Entity):
         # TODO: Consider making sprite the Path object for a directory
         #   Since there will probably be multiple sprites for one NPC
 
+    def __repr__(self):
+        return f"Npc([id: {self.id}, name: {self.name}, sprite: {self._sprite}, pos: {self._pos}])"
+
     pass
