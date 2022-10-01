@@ -12,10 +12,9 @@ liberate Califorknia.
 import logger
 import pygame
 
-WINDOW_NAME = "Califorknia"
-WIDTH = 800
-HEIGHT = 600
-FPS = 60
+from califorknia.constants import *
+from califorknia.entities.player import Player
+from califorknia.map.map import Map
 
 log = logger.get_logger(__name__)
 log.info("Logger loaded.")
@@ -23,9 +22,12 @@ log.info("Logger loaded.")
 
 def main() -> None:
     log.info("Script entry point.")
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    orange_county = Map(screen)
+    player = Player("Player", map_=orange_county, pos=(0, 0))
+    orange_county.place_entity(player, 10, 5)
     pygame.init()
     pygame.display.set_caption(WINDOW_NAME)
-    screen = pygame.display.set_mode((WIDTH, HEIGHT))
     clock = pygame.time.Clock()
     game_running = True
     while game_running:
@@ -33,7 +35,9 @@ def main() -> None:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game_running = False
-        screen.fill((255, 255, 255))
+        player.listen_input()
+        screen.fill((0, 0, 0))
+        orange_county.render_map()
         pygame.display.flip()
     pygame.quit()
 

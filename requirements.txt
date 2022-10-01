@@ -12,3 +12,4 @@ ruamel.yaml.clib==0.2.6
 tomli==2.0.1
 tomlkit==0.11.5
 wrapt==1.14.1
+window~=0.0.3
