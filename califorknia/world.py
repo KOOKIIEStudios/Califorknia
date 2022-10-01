@@ -37,7 +37,7 @@ class World:
         self.init_active_entities(self._active_map.name)
 
         self._player = Player("Player", pos=(0, 0))
-        self._active_map.place_entity(self._player.id, 10, 5)
+        self._place_entity_on_map(self._player)
 
     @staticmethod
     def get_active_entities_ids(selected_map: str) -> dict[int, dict[str, Any]]:
@@ -54,6 +54,7 @@ class World:
                 attributes.get("sprite"),
                 (attributes.get("x"), attributes.get("y")),
             )
+        # TODO: Place them on the map
 
     @property
     def active_map(self) -> Map:
@@ -67,6 +68,7 @@ class World:
         return self._player
 
     def _place_entity_on_map(self, entity: Entity):
+        # TODO: Centre the entity instead of aligning top left
         return self.active_map.place_entity(entity.id, entity.x, entity.y)
 
     def move_player(self, direction: Direction):
