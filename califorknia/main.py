@@ -14,7 +14,7 @@ import logger
 import pygame
 
 from califorknia.constants.constants import *
-import constants.events as events
+from constants import events
 from constants.direction import Direction
 from world import World
 
@@ -49,6 +49,9 @@ def main() -> None:
                     world.move_player(Direction.LEFT)
                 case events.MOVE_RIGHT.type:
                     world.move_player(Direction.RIGHT)
+
+                case events.AUTO_SAVE.type:
+                    pass  # TODO: Auto-save function
 
             if listener.is_pause_toggled(event):
                 pass

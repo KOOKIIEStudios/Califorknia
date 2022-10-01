@@ -1,3 +1,9 @@
+"""This module holds custom events
+
+We sometimes want multiple different keystrokes to perform the same action,
+or for certain events to periodically occur. This module holds the custom event
+constants used for that.
+"""
 from pygame import USEREVENT
 from pygame.event import Event
 

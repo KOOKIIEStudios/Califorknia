@@ -5,7 +5,10 @@ a form that the World object can pass on to its entities.
 """
 import pygame
 
-import constants.events as events
+from constants import events
+
+
+CONTROL_KEYS = (pygame.K_LCTRL, pygame.K_RCTRL)
 
 
 def listen_input() -> None:
@@ -37,13 +40,13 @@ def is_menu_toggled(event: pygame.event) -> bool:
 
 def is_start_running(event: pygame.event) -> bool:
     if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_LCTRL or event.key == pygame.K_RCTRL:
+        if event.key in CONTROL_KEYS:
             return True
     return False
 
 
 def is_stop_running(event: pygame.event) -> bool:
     if event.type == pygame.KEYUP:
-        if event.key == pygame.K_LCTRL or event.key == pygame.K_RCTRL:
+        if event.key in CONTROL_KEYS:
             return True
     return False

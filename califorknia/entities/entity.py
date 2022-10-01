@@ -80,4 +80,5 @@ class Entity:
     # TODO: Sprite property that returns the currently active sprite
 
     def __repr__(self):
-        return f"Entity([id: {self.id}, name: {self.name}, sprite: {self._sprite}, pos: {self._pos}])"
+        return f"Entity([id: {self.id}, name: {self.name}, " \
+               f"sprite: {self._sprite}, pos: {self._pos}])"
