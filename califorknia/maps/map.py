@@ -8,7 +8,6 @@ import logger
 
 from califorknia.constants.constants import TILE_SIZE, WIDTH, HEIGHT
 
-
 log = logger.get_logger(__name__)
 
 
@@ -36,6 +35,13 @@ class Map:
         self._tiles = [[0 for _ in range(WIDTH // TILE_SIZE)] for _ in range(HEIGHT // TILE_SIZE)]
         # log.debug(self)
 
+    def parse_map(self, map_name: str):
+        self._tiles = []
+        with open('maps/custommaps/' + map_name + ".txt") as map_file:
+            for line in map_file:
+                row = [int(num) for num in line.split()]
+                self._tiles.append(row)
+
     @property
     def tiles(self):
         return self._tiles
@@ -44,7 +50,7 @@ class Map:
         self._tiles[y][x] = entity_id
 
     def reset_tile(self, x: int, y: int):
-        self._tiles[y][x] = 0
+        self._tiles[y][x] = 49  # I set 49 as the default tile
 
     def __repr__(self):
         buffer = [

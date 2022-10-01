@@ -37,8 +37,9 @@ class World:
         self._active_npcs: dict[int, Npc] = {}
         self.init_active_entities(self._active_map.name)
 
-        self._player = Player("Player", pos=(0, 0))
+        self._player = Player("Player", pos=(0, 0), sprite="assets/tile_0085.png")
         self._place_entity_on_map(self._player)
+        self._active_map.parse_map("test_map")
 
     @staticmethod
     def get_active_entities_ids(selected_map: str) -> dict[int, dict[str, Any]]:
@@ -123,4 +124,5 @@ class World:
             self._get_player(),
             self._active_npcs,
             self._window,
+            self._active_map
         )

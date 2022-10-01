@@ -24,7 +24,7 @@ log.info("Logger loaded.")
 
 def main() -> None:
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    world = World(screen)
+    world = World(screen, selected_map="test_map")
     clock = pygame.time.Clock()
 
     pygame.init()
