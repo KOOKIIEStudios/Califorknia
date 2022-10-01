@@ -15,7 +15,7 @@ from entities.npc import Npc
 from entities.player import Player
 from maps import metadata
 from maps.map import Map
-
+from utils import render_world
 
 log = logger.get_logger(__name__)
 
@@ -118,15 +118,9 @@ class World:
             return
         return entity
 
-    def _render_entity(self, entity_id: int) -> None:
-        if entity_id is None:
-            log.warning("Encountered null entity ID!")
-            return
-        if entity_id != 0:
-            self.get_active_entity(entity_id).render(self._window)
-
     def render_map(self) -> None:
-        self._window.fill((0, 0, 0))  # clear the screen before drawing entities
-        for row in self.active_map.tiles:
-            for entity_id in row:
-                self._render_entity(entity_id)
+        render_world.render_world(
+            self._get_player(),
+            self._active_npcs,
+            self._window,
+        )

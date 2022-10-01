@@ -3,9 +3,6 @@
 Entities are humanoid creatures in the game. This module also houses other
 utility/static functions like accessors.
 """
-import pygame
-
-from califorknia.constants.constants import TILE_SIZE
 
 
 class Entity:
@@ -32,13 +29,6 @@ class Entity:
         self._name = name
         self._sprite = sprite
         self._pos = pos
-
-    def render(self, window_):
-        pygame.draw.rect(
-            window_,
-            (255, 255, 255),
-            (self._pos[0] * TILE_SIZE, self._pos[1] * TILE_SIZE, 32, 32),
-        )
 
     @property
     def id(self):
