@@ -1,5 +1,8 @@
-from typing import List
+"""This module holds the Player class.
 
+The player object implements the various ways that the player of the game
+can interact with the game, such as movement using the arrow keys.
+"""
 import pygame
 
 from califorknia.entities.direction import Direction
@@ -10,11 +13,18 @@ from califorknia.map.map import Map
 
 
 class Player(Entity):
-    _inventory: List[Item] = []
-    _dishes: List[Dish] = []
+    """This class models the single player interacting with the game."""
+    _inventory: list[Item] = []
+    _dishes: list[Dish] = []
     _map: Map = None
 
-    def __init__(self, name: str, sprite: str = None, map_: Map = None, pos: tuple[int, int] = (0, 0)):
+    def __init__(
+        self,
+        name: str,
+        sprite: str = None,
+        pos: tuple[int, int] = (0, 0),
+        map_: Map = None,
+    ):
         super().__init__(name, sprite, pos)
         self._map = map_
 

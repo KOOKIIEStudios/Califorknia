@@ -8,6 +8,16 @@ from califorknia.constants import TILE_SIZE, WIDTH, HEIGHT
 
 
 class Map:
+    """This class models the in-game maps
+
+    The player is only in one map at a time, and maps are located adjacent to
+    one another. Each map is modeled using a 2D List, representing a series of
+    tiles on a 2D plane; each cell in the list can hold an integer to represent
+    what is on that tile.
+    `0` represents an empty/traversable tile. All humanoid entities
+    on the map will have an ID in the corresponding cell that they're located
+    on. Special tiles with special properties will have their own IDs.
+    """
     _tiles: list[list] = []
     _window = None
 
