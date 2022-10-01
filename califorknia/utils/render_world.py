@@ -11,7 +11,7 @@ from entities.player import Player
 log = logger.get_logger(__name__)
 
 
-def _render_entity(entity: Union[Player, Npc], surface: Surface) -> None:
+def _render_entity(entity, surface: Surface) -> None:
     color = (127, 0, 7)  # NPC color
     entity_size = 32
     if isinstance(entity, Player):
