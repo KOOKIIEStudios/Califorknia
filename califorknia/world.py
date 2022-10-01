@@ -91,10 +91,21 @@ class World:
     def get_active_entity(self, entity_id: int) -> Union[Player, Npc, None]:
         if entity_id == 1:
             return self._get_player()
-        return self._active_npcs.get(entity_id)
 
-    def render_map(self):
+        entity = self._active_npcs.get(entity_id)
+        if entity is None:
+            log.warning(f"Invalid entity ID! ID: {entity_id}")
+            return
+        return entity
+
+    def _render_entity(self, entity_id: int) -> None:
+        if entity_id is None:
+            log.warning("Encountered null entity ID!")
+            return
+        if entity_id != 0:
+            self.get_active_entity(entity_id).render(self._window)
+
+    def render_map(self) -> None:
         for row in self.active_map.tiles:
             for entity_id in row:
-                if entity_id != 0:
-                    self.get_active_entity(entity_id).render(self._window)
+                self._render_entity(entity_id)
