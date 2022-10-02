@@ -52,4 +52,6 @@ def render_world(
 # TODO: autogenerate this map for all tiles in assets folder
 tiles_to_render = {
     49: pygame.transform.scale(pygame.image.load("assets/tile_0049.png"), (TILE_SIZE, TILE_SIZE)),
+    10: pygame.image.load("assets/grass.png"),
+    11: pygame.image.load("assets/water.png")
 }
