@@ -49,8 +49,8 @@ class Map:
     def place_entity(self, entity_id: int, x: int, y: int):
         self._tiles[y][x] = entity_id
 
-    def reset_tile(self, x: int, y: int):
-        self._tiles[y][x] = 49  # I set 49 as the default tile
+    def reset_tile(self, x: int, y: int, new_block: int = 49):
+        self._tiles[y][x] = new_block  # I set 49 as the default tile
 
     def __repr__(self):
         buffer = [

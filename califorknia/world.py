@@ -36,10 +36,10 @@ class World:
 
         self._active_npcs: dict[int, Npc] = {}
         self.init_active_entities(self._active_map.name)
+        self._active_map.parse_map("test_map")
 
         self._player = Player("Player", pos=(0, 0), sprite="assets/tile_0085.png")
         self._place_entity_on_map(self._player)
-        self._active_map.parse_map("test_map")
 
     @staticmethod
     def get_active_entities_ids(selected_map: str) -> dict[int, dict[str, Any]]:
@@ -82,12 +82,13 @@ class World:
 
     def _place_entity_on_map(self, entity: Entity):
         # TODO: Centre the entity instead of aligning top left
+        self._player.current_tile = self._active_map.tiles[self._player.y][self._player.x]
         return self.active_map.place_entity(entity.id, entity.x, entity.y)
 
     def _move_player(self, direction: Direction) -> None:
         """Update Player and Map objects"""
         player = self._get_player()
-        self.active_map.reset_tile(player.x, player.y)  # clear player from map
+        self.active_map.reset_tile(player.x, player.y, new_block=player.current_tile)  # clear player from map
         # log.debug(player)
         player.move(direction)  # update player x/y-coord attributes
         if player.x == len(self.active_map.tiles[0]):  # block player from going out of bounds right

@@ -44,7 +44,6 @@ def _render_map(active_map: Map, surface: Surface) -> None:
 def render_world(
         player: Player, npcs: dict[int, Npc], surface: Surface, active_map: Map
 ) -> None:
-    # surface.fill((0, 0, 0))  # clear the screen before drawing entities
     _render_map(active_map, surface)
     _render_entities(player, npcs, surface)
 
