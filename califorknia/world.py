@@ -90,6 +90,18 @@ class World:
         self.active_map.reset_tile(player.x, player.y)  # clear player from map
         # log.debug(player)
         player.move(direction)  # update player x/y-coord attributes
+        if self._player.x == len(self.active_map.tiles[0]):
+            self._player.x = len(self.active_map.tiles[0]) - 1
+            return
+        if self._player.x < 0:
+            self._player.x = 0
+            return
+        if self._player.y == len(self._active_map.tiles):
+            self._player.y = len(self._active_map.tiles) - 1
+            return
+        if self._player.y < 0:
+            self._player.y = 0
+            return
         self._place_entity_on_map(player)  # replace player
         # log.debug(self.active_map)
 
