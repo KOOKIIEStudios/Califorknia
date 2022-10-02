@@ -90,16 +90,16 @@ class World:
         self.active_map.reset_tile(player.x, player.y)  # clear player from map
         # log.debug(player)
         player.move(direction)  # update player x/y-coord attributes
-        if self._player.x == len(self.active_map.tiles[0]):
+        if player.x == len(self.active_map.tiles[0]):  # block player from going out of bounds right
             self._player.x = len(self.active_map.tiles[0]) - 1
             return
-        if self._player.x < 0:
+        if player.x < 0:  # block player from going out of bounds left
             self._player.x = 0
             return
-        if self._player.y == len(self._active_map.tiles):
+        if player.y == len(self._active_map.tiles):  # block player from going out of bounds down
             self._player.y = len(self._active_map.tiles) - 1
             return
-        if self._player.y < 0:
+        if player.y < 0:  # block player from going out of bounds up
             self._player.y = 0
             return
         self._place_entity_on_map(player)  # replace player
