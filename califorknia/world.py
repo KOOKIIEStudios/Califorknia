@@ -38,7 +38,7 @@ class World:
         self.init_active_entities(self._active_map.name)
         self._active_map.parse_map("test_map")
 
-        self._player = Player("Player", pos=(0, 0), sprite="assets/tiles/tile_0085.png")
+        self._player = Player("Player", pos=(0, 0))
         self._place_entity_on_map(self._player)
 
     @staticmethod
