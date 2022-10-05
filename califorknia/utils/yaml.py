@@ -33,6 +33,7 @@ def get_source_folder() -> Path:
 SOURCE_FOLDER = get_source_folder()
 MAPS_FOLDER = SOURCE_FOLDER.joinpath("maps").joinpath("metadata")
 CONSTANTS_FOLDER = SOURCE_FOLDER.joinpath("constants")
+TILES_FOLDER = SOURCE_FOLDER.joinpath("assets").joinpath("tiles")
 
 # Generic YAML loader/dumper with formatting rules ----------------------------
 
@@ -57,6 +58,9 @@ def load_map(map_name: str) -> list[list[int]]:
     map_path = MAPS_FOLDER.joinpath(f"{map_name}.yaml")
     return load_yaml(map_path)
 
+
+def load_tile_spites() -> dict[int, str]:
+    return load_yaml(MAPS_FOLDER.joinpath("asset_location.yaml"))
 
 # Class loading/dumping -------------------------------------------------------
 # Not tried. To be investigated when we actually need to load classes

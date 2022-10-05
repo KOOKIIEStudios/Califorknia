@@ -10,8 +10,20 @@ from entities.npc import Npc
 from entities.player import Player
 
 from califorknia.maps.map import Map
+from utils.yaml import load_tile_spites, TILES_FOLDER
 
 log = logger.get_logger(__name__)
+
+
+def _init_tile_dictionary() -> dict[str, Surface]:
+    buffer = {}
+    tile_file_name_dictionary = load_tile_spites()
+    for tile_id, file_name in tile_file_name_dictionary:
+        buffer[tile_id] = pygame.image.load(TILES_FOLDER.joinpath(file_name))
+    return buffer
+
+
+TILE_MAP = _init_tile_dictionary()
 
 
 def _render_entity(entity, surface: Surface) -> None:
@@ -35,10 +47,10 @@ def _render_map(active_map: Map, surface: Surface) -> None:
         for x in range(len(row)):
             tile = row[x]
             if tile > 0:
-                image = tiles_to_render.get(tile)
+                image = TILE_MAP.get(tile)
                 if image is None:
                     continue
-                surface.blit(tiles_to_render.get(tile), (x * TILE_SIZE, y * TILE_SIZE))
+                surface.blit(TILE_MAP.get(tile), (x * TILE_SIZE, y * TILE_SIZE))
 
 
 def render_world(
@@ -46,11 +58,3 @@ def render_world(
 ) -> None:
     _render_map(active_map, surface)
     _render_entities(player, npcs, surface)
-
-
-# TODO: autogenerate this map for all tiles in assets folder
-tiles_to_render = {
-    49: pygame.transform.scale(pygame.image.load("assets/tile_0049.png"), (TILE_SIZE, TILE_SIZE)),
-    10: pygame.image.load("assets/grass.png"),
-    11: pygame.image.load("assets/water.png")
-}
