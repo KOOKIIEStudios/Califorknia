@@ -21,7 +21,6 @@ class Player(Entity):
     _base_velocity: int = 1
     _run_modifier: int = 2
     _run_flag: bool = False  # is currently running
-    _current_tile: int = 0
 
     def __init__(
         self,
@@ -46,14 +45,6 @@ class Player(Entity):
     @run_flag.setter
     def run_flag(self, flag: bool):
         self._run_flag = flag
-
-    @property
-    def current_tile(self) -> int:
-        return self._current_tile
-
-    @current_tile.setter
-    def current_tile(self, tile: int):
-        self._current_tile = tile
 
     def _get_velocity(self):
         velocity = self.base_velocity
