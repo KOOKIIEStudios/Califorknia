@@ -88,21 +88,12 @@ class World:
     def _move_player(self, direction: Direction) -> None:
         """Update Player and Map objects"""
         player = self._get_player()
+        new_x, new_y = player.get_new_coord(direction)
+        if self.active_map.is_out_of_bounds(new_x, new_y):
+            return  # short-circuit if out of map boundaries
         self.active_map.reset_tile(player.x, player.y, new_block=player.current_tile)  # clear player from map
         # log.debug(player)
         player.move(direction)  # update player x/y-coord attributes
-        if player.x == len(self.active_map.tiles[0]):  # block player from going out of bounds right
-            self._player.x = len(self.active_map.tiles[0]) - 1
-            return
-        if player.x < 0:  # block player from going out of bounds left
-            self._player.x = 0
-            return
-        if player.y == len(self._active_map.tiles):  # block player from going out of bounds down
-            self._player.y = len(self._active_map.tiles) - 1
-            return
-        if player.y < 0:  # block player from going out of bounds up
-            self._player.y = 0
-            return
         self._place_entity_on_map(player)  # replace player
         # log.debug(self.active_map)
 

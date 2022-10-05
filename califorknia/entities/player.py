@@ -62,17 +62,22 @@ class Player(Entity):
         # log.debug(f"Current player velocity: {velocity}")
         return velocity
 
-    def move(self, direction: Direction):
+    def get_new_coord(self, direction: Direction) -> tuple[int, int]:
         velocity = self._get_velocity()
         match direction:
             case Direction.UP:
-                self.y -= velocity
+                return self.x, self.y - velocity
             case Direction.DOWN:
-                self.y += velocity
+                return self.x, self.y + velocity
             case Direction.LEFT:
-                self.x -= velocity
+                return self.x - velocity, self.y
             case Direction.RIGHT:
-                self.x += velocity
+                return self.x + velocity, self.y
+
+    def move(self, direction: Direction):
+        new_x, new_y = self.get_new_coord(direction)
+        self.x = new_x
+        self.y = new_y
         # TODO: This should render the player move over to the new tile
 
     def __repr__(self):

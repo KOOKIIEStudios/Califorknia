@@ -24,6 +24,8 @@ class Map:
     on. Special tiles with special properties will have their own IDs.
     """
     _tiles: list[list[int]] = []
+    _right_boundary: int = 0
+    _bottom_boundary: int = 0
 
     def __init__(self, map_name: str):
         if not map_name:
@@ -39,6 +41,8 @@ class Map:
 
     def parse_map(self, map_name: str):
         self.tiles = load_map(map_name)
+        self._right_boundary = len(self.tiles[0])
+        self._bottom_boundary = len(self.tiles)
 
     @property
     def tiles(self):
@@ -47,6 +51,16 @@ class Map:
     @tiles.setter
     def tiles(self, tile_contents: list[list[int]]) -> None:
         self._tiles = tile_contents
+
+    def is_out_of_bounds(self, x: int, y: int) -> bool:
+        if (
+            x < 0 or  # left-bound
+            x > self._right_boundary or  # right-bound
+            y < 0 or  # top-bound
+            y > self._bottom_boundary  # bottom-bound
+        ):
+            return True
+        return False
 
     def place_entity(self, entity_id: int, x: int, y: int):
         self._tiles[y][x] = entity_id
