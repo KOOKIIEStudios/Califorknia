@@ -37,7 +37,7 @@ class Map:
 
     def parse_map(self, map_name: str):
         self._tiles = []
-        with open('maps/custommaps/' + map_name + ".txt") as map_file:
+        with open('maps/metadata/' + map_name + ".txt") as map_file:
             for line in map_file:
                 row = [int(num) for num in line.split()]
                 self._tiles.append(row)
