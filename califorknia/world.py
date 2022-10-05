@@ -83,10 +83,12 @@ class World:
         """Update Player and Map objects"""
         player = self._get_player()
         new_x, new_y = player.get_new_coord(direction)
-        if self.active_map.is_out_of_bounds(new_x, new_y):
-            return  # short-circuit if out of map boundaries
         # log.debug(player)
+        if self.active_map.is_out_of_bounds(new_x, new_y):
+            # log.debug(f"Out of bounds! Requested X: {new_x}, requested Y: {new_y}")
+            return  # short-circuit if out of map boundaries
         player.move(direction)  # update player x/y-coord attributes
+        # log.debug(player)
         # log.debug(self.active_map)
 
     def handle_direction(self, direction: Direction) -> None:

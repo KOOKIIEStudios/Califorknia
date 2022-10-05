@@ -41,8 +41,8 @@ class Map:
 
     def parse_map(self, map_name: str):
         self.tiles = load_map(map_name)
-        self._right_boundary = len(self.tiles[0])
-        self._bottom_boundary = len(self.tiles)
+        self._right_boundary = len(self.tiles[0]) - 1
+        self._bottom_boundary = len(self.tiles) - 1
 
     @property
     def tiles(self):
