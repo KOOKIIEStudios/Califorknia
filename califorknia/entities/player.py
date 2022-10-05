@@ -26,7 +26,7 @@ class Player(Entity):
     def __init__(
         self,
         name: str,
-        sprite: str = "assets/tiles/tile_0085.png",
+        sprite: str = "assets/entities/tile_0085.png",
         pos: tuple[int, int] = (0, 0),
     ):
         super().__init__(1, name, sprite, pos)
