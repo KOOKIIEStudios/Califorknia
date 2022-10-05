@@ -2,7 +2,8 @@
 from typing import Union
 
 import pygame
-from pygame import draw, Surface
+from pygame import Surface
+from pygame.surface import SurfaceType
 
 import logger
 from constants.constants import TILE_SIZE
@@ -15,10 +16,10 @@ from utils.yaml import load_tile_spites, TILES_FOLDER
 log = logger.get_logger(__name__)
 
 
-def _init_tile_dictionary() -> dict[str, Surface]:
+def _init_tile_dictionary() -> dict[int, Union[Surface, SurfaceType]]:
     buffer = {}
     tile_file_name_dictionary = load_tile_spites()
-    for tile_id, file_name in tile_file_name_dictionary:
+    for tile_id, file_name in tile_file_name_dictionary.items():
         buffer[tile_id] = pygame.image.load(TILES_FOLDER.joinpath(file_name))
     return buffer
 
@@ -42,15 +43,17 @@ def _render_entities(
 
 
 def _render_map(active_map: Map, surface: Surface) -> None:
-    for y in range(len(active_map.tiles)):
-        row = active_map.tiles[y]
-        for x in range(len(row)):
-            tile = row[x]
-            if tile > 0:
-                image = TILE_MAP.get(tile)
+    for row_number, row in enumerate(active_map.tiles):
+        for column_number, column in enumerate(row):
+            if column > 0:
+                image = TILE_MAP.get(column)
                 if image is None:
+                    log.warning(f"TILE NOT FOUND! Row {row_number}, column {column_number}")
                     continue
-                surface.blit(TILE_MAP.get(tile), (x * TILE_SIZE, y * TILE_SIZE))
+                surface.blit(
+                    image, (column_number * TILE_SIZE, row_number * TILE_SIZE)
+                )
+            # TODO: Action for tile id <= 0
 
 
 def render_world(
