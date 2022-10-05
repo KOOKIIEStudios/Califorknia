@@ -51,7 +51,7 @@ def dump_yaml(data: Any, path: Path) -> Any:
 
 # Specific loader -------------------------------------------------------------
 def load_constants() -> dict[str, any]:
-    return load_yaml(CONSTANTS_FOLDER.joinpath("constants.py"))
+    return load_yaml(CONSTANTS_FOLDER.joinpath("settings.yaml"))
 
 
 def load_map(map_name: str) -> list[list[int]]:

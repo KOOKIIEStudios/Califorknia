@@ -6,7 +6,7 @@
 """
 import logger
 
-from califorknia.constants.constants import TILE_SIZE, WIDTH, HEIGHT
+from califorknia.constants.constants import TILE_SIZE, SETTINGS
 from califorknia.utils.yaml import load_map
 
 log = logger.get_logger(__name__)
@@ -16,7 +16,7 @@ class Map:
     """This class models the in-game maps
 
     The player is only in one maps at a time, and maps are located adjacent to
-    one another. Each maps is modeled using a 2D List, representing a series of
+    one another. Each map is modeled using a 2D List, representing a series of
     tiles on a 2D plane; each cell in the list can hold an integer to represent
     what is on that tile.
     `0` represents an empty/traversable tile. All humanoid entities
@@ -35,8 +35,8 @@ class Map:
         self.init_tiles()
 
     def init_tiles(self):
-        self._tiles = [[0 for _ in range(WIDTH // TILE_SIZE)]
-                       for _ in range(HEIGHT // TILE_SIZE)]
+        self._tiles = [[0 for _ in range(SETTINGS["WIDTH"] // TILE_SIZE)]
+                       for _ in range(SETTINGS["HEIGHT"] // TILE_SIZE)]
         # log.debug(self)
 
     def parse_map(self, map_name: str):

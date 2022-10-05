@@ -13,7 +13,7 @@ import listener
 import logger
 import pygame
 
-from califorknia.constants.constants import *
+from califorknia.constants.constants import WINDOW_NAME, SETTINGS
 from constants import events
 from constants.direction import Direction
 from world import World
@@ -23,7 +23,7 @@ log.info("Logger loaded.")
 
 
 def main() -> None:
-    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    screen = pygame.display.set_mode((SETTINGS["WIDTH"], SETTINGS["HEIGHT"]))
     world = World(screen, selected_map="test_map")
     clock = pygame.time.Clock()
 
@@ -34,7 +34,7 @@ def main() -> None:
     game_running = True
     log.info("PyGame loaded. Start running game.")
     while game_running:
-        clock.tick(FPS)
+        clock.tick(SETTINGS["FPS"])
         for event in pygame.event.get():
             # log.debug(event.type)
             match event.type:
