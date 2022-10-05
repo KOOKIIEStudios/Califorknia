@@ -7,6 +7,7 @@
 import logger
 
 from califorknia.constants.constants import TILE_SIZE, WIDTH, HEIGHT
+from califorknia.utils.yaml import load_map
 
 log = logger.get_logger(__name__)
 
@@ -32,19 +33,20 @@ class Map:
         self.init_tiles()
 
     def init_tiles(self):
-        self._tiles = [[0 for _ in range(WIDTH // TILE_SIZE)] for _ in range(HEIGHT // TILE_SIZE)]
+        self._tiles = [[0 for _ in range(WIDTH // TILE_SIZE)]
+                       for _ in range(HEIGHT // TILE_SIZE)]
         # log.debug(self)
 
     def parse_map(self, map_name: str):
-        self._tiles = []
-        with open('maps/metadata/' + map_name + ".txt") as map_file:
-            for line in map_file:
-                row = [int(num) for num in line.split()]
-                self._tiles.append(row)
+        self.tiles = load_map(map_name)
 
     @property
     def tiles(self):
         return self._tiles
+
+    @tiles.setter
+    def tiles(self, tile_contents: list[list[int]]) -> None:
+        self._tiles = tile_contents
 
     def place_entity(self, entity_id: int, x: int, y: int):
         self._tiles[y][x] = entity_id

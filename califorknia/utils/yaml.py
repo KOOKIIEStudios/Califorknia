@@ -53,8 +53,8 @@ def load_constants() -> dict[str, any]:
     return load_yaml(CONSTANTS_FOLDER.joinpath("constants.py"))
 
 
-def load_test_map() -> list[list[int]]:
-    map_path = MAPS_FOLDER.joinpath("test_map.yaml")
+def load_map(map_name: str) -> list[list[int]]:
+    map_path = MAPS_FOLDER.joinpath(f"{map_name}.yaml")
     return load_yaml(map_path)
 
 
