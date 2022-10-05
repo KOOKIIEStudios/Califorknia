@@ -14,10 +14,15 @@ from typing import Any
 
 from ruamel.yaml import YAML
 
+import logger
+
+log = logger.get_logger(__name__)
+
 
 # Set up source folder-finding ------------------------------------------------
 def get_source_folder() -> Path:
     cwd = Path.cwd()
+    # log.debug(f"Program working directory: {cwd}")
     if Path("logs").exists():  # CWD is .../Califorknia/califorknia
         return cwd
     # if CWD is .../Califorknia:
@@ -55,11 +60,13 @@ def load_constants() -> dict[str, any]:
 
 
 def load_map(map_name: str) -> list[list[int]]:
+    log.debug(f"Loading map: {map_name}")
     map_path = MAPS_FOLDER.joinpath(f"{map_name}.yaml")
     return load_yaml(map_path)
 
 
 def load_tile_spites() -> dict[int, str]:
+    log.info("Loading map path mappings")
     return load_yaml(MAPS_FOLDER.joinpath("asset_location.yaml"))
 
 # Class loading/dumping -------------------------------------------------------

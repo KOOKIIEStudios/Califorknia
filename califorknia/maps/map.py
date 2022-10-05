@@ -5,7 +5,6 @@
       [] [] [] [] [] ]
 """
 import logger
-
 from califorknia.constants.constants import TILE_SIZE, SETTINGS
 from califorknia.utils.yaml import load_map
 

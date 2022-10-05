@@ -19,7 +19,6 @@ from constants.direction import Direction
 from world import World
 
 log = logger.get_logger(__name__)
-log.info("Logger loaded.")
 
 
 def main() -> None:
