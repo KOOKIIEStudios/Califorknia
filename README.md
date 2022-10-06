@@ -12,7 +12,7 @@ BAA Studios has created this game for use in a sister project, where we train a 
 3. Run the game using the entry point `califorknia/main.py`
 
 ## Tools
-This project targets Python 3.10 and up, and makes use of [PyGame](https://pypi.org/project/pygame/). We intend to use [WaveFunctionCollapse](https://github.com/mxgmn/WaveFunctionCollapse) for generation of maps. YAML configuration files are parsed with [ruamel.yaml](https://pypi.org/project/ruamel.yaml/), which supports the use of comments.
+This project targets Python 3.10 and up, and makes use of [PyGame](https://pypi.org/project/pygame/). YAML configuration files are parsed with [ruamel.yaml](https://pypi.org/project/ruamel.yaml/), which supports the use of comments.
 
 ## Style
 This project should follow [Google Style Guides](https://github.com/google/styleguide) where possible. We recommended the use of [PyLint](https://stackoverflow.com/questions/38134086/how-to-run-pylint-with-pycharm/46409649#46409649); Google's linting rules has already been included in the project directory as `pylintrc`.
