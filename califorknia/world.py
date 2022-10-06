@@ -4,11 +4,12 @@ The World object instantiates the other entities, which allows them to not
 need to know about the implementation of each other (i.e. Player does not need
 to know what else is in the map until we tell them).
 """
-from typing import Any, Union
+from typing import Union
 
 from pygame import Surface
 
 import logger
+from constants.constants import PLAYER_ID
 from constants.direction import Direction
 from entities.npc import Npc
 from entities.player import Player
@@ -103,7 +104,7 @@ class World:
         player.run_flag = False
 
     def get_active_entity(self, entity_id: int) -> Union[Player, Npc, None]:
-        if entity_id == 1:
+        if entity_id == PLAYER_ID:
             return self._get_player()
 
         entity = self._active_npcs.get(entity_id)
