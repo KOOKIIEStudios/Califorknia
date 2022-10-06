@@ -15,7 +15,6 @@ class Entity:
     Player and NPCs will inherit from this class.
     """
     _id: int
-    _sprite: str  # Consider using Path object
     _name: str
     _pos: tuple[int, int]  # x, y
 
@@ -23,17 +22,13 @@ class Entity:
         self,
         entity_id: int = 0,
         name: str = "",
-        sprite: str = "",
         pos: tuple[int, int] = (0, 0),
     ):
         # Suggest init with automatically generated unique name/sprite
         #   instead of empty string
         self._id = entity_id
         self._name = name
-        self._sprite = sprite
         self._pos = pos
-        self.image = pygame.image.load(self._sprite)
-        self.image = pygame.transform.scale(self.image, (TILE_SIZE, TILE_SIZE))
 
     @property
     def id(self):
@@ -75,5 +70,4 @@ class Entity:
     # TODO: Sprite property that returns the currently active sprite
 
     def __repr__(self):
-        return f"Entity([id: {self.id}, name: {self.name}, " \
-               f"sprite: {self._sprite}, pos: {self._pos}])"
+        return f"Entity([id: {self.id}, name: {self.name}, pos: {self._pos}])"

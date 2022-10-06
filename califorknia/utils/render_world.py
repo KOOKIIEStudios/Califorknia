@@ -6,30 +6,42 @@ from pygame import Surface
 from pygame.surface import SurfaceType
 
 import logger
-from constants.constants import TILE_SIZE
+from constants.constants import TILE_SIZE, TILE_ASSETS_FOLDER, ENTITY_ASSETS_FOLDER, ENTITY_SIZE
 from entities.npc import Npc
 from entities.player import Player
 
 from califorknia.maps.map import Map
-from utils.yaml import load_tile_spites, TILES_FOLDER
+from utils.yaml import load_tile_sprites, load_entity_sprites
 
 log = logger.get_logger(__name__)
 
 
 def _init_tile_dictionary() -> dict[int, Union[Surface, SurfaceType]]:
     buffer = {}
-    tile_file_name_dictionary = load_tile_spites()
-    for tile_id, file_name in tile_file_name_dictionary.items():
-        buffer[tile_id] = pygame.image.load(TILES_FOLDER.joinpath(file_name))
+    file_name_dictionary = load_tile_sprites()
+    for tile_id, file_name in file_name_dictionary.items():
+        buffer[tile_id] = pygame.image.load(TILE_ASSETS_FOLDER.joinpath(file_name))
+    return buffer
+
+
+def _init_entity_dictionary() -> dict[int, Union[Surface, SurfaceType]]:
+    buffer = {}
+    file_name_dictionary = load_entity_sprites()
+    for tile_id, file_name in file_name_dictionary.items():
+        image = pygame.image.load(ENTITY_ASSETS_FOLDER.joinpath(file_name))
+        buffer[tile_id] = pygame.transform.scale(image, (TILE_SIZE, TILE_SIZE))
     return buffer
 
 
 TILE_MAP = _init_tile_dictionary()
+ENTITY_MAP = _init_entity_dictionary()
 
 
 def _render_entity(entity, surface: Surface) -> None:
-    entity_size = 32
-    surface.blit(entity.image, (entity.x * entity_size, entity.y * entity_size))
+    surface.blit(
+        ENTITY_MAP.get(entity.id),
+        (entity.x * ENTITY_SIZE, entity.y * ENTITY_SIZE),
+    )
 
 
 def _render_entities(

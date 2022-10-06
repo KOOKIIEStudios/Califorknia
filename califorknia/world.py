@@ -10,12 +10,11 @@ from pygame import Surface
 
 import logger
 from constants.direction import Direction
-from entities.entity import Entity
 from entities.npc import Npc
 from entities.player import Player
-from maps import metadata
 from maps.map import Map
 from utils import render_world
+from utils.yaml import load_npc_metadata
 
 log = logger.get_logger(__name__)
 
@@ -40,22 +39,18 @@ class World:
 
         self._player = Player("Player", pos=(0, 0))
 
-    @staticmethod
-    def get_active_entities_ids(selected_map: str) -> dict[int, dict[str, Any]]:
-        """Get the list of NPCs in the current maps"""
-        return metadata.ENTITIES.get(selected_map, {})
-
     def init_active_entities(self, selected_map: str) -> None:
-        active_entities_attributes = self.get_active_entities_ids(selected_map)
+        active_entities_attributes = load_npc_metadata(selected_map)
+        if not active_entities_attributes:
+            log.debug(f"[{selected_map}] There are no NPCs to load.")
+            return
         # At the moment these are all NPCs:
         for entity_id, attributes in active_entities_attributes.items():
             self._active_npcs[entity_id] = Npc(
                 entity_id,
                 attributes.get("name"),
-                attributes.get("sprite"),
                 (attributes.get("x"), attributes.get("y")),
             )
-        # TODO: Place them on the map
 
     @property
     def active_map(self) -> Map:

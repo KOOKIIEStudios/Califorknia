@@ -28,7 +28,7 @@ def main() -> None:
 
     pygame.init()
     pygame.display.set_caption(WINDOW_NAME)
-    pygame.time.set_timer(events.AUTO_SAVE, 600000)  # 10 min
+    pygame.time.set_timer(events.AUTO_SAVE, SETTINGS["AUTOSAVE"])  # 10 min
 
     game_running = True
     log.info("PyGame loaded. Start running game.")

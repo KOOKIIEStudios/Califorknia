@@ -1,0 +1,11 @@
+## Attributes: name, x, y
+# Python dict structure:
+# map_metadata = {
+#   NPC_ID: {
+#       "attribute_name": attribute_value
+#   }
+# }
+#
+# Format in this file:
+#ID (int):
+#  - attribute name: attribute value
