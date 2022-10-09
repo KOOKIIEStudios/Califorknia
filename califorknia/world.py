@@ -4,18 +4,18 @@ The World object instantiates the other entities, which allows them to not
 need to know about the implementation of each other (i.e. Player does not need
 to know what else is in the map until we tell them).
 """
-from typing import Any, Union
+from typing import Union
 
 from pygame import Surface
 
 import logger
+from constants.constants import PLAYER_ID
 from constants.direction import Direction
-from entities.entity import Entity
 from entities.npc import Npc
 from entities.player import Player
-from maps import metadata
 from maps.map import Map
 from utils import render_world
+from utils.yaml import load_npc_metadata
 
 log = logger.get_logger(__name__)
 
@@ -38,25 +38,20 @@ class World:
         self.init_active_entities(self._active_map.name)
         self._active_map.parse_map("test_map")
 
-        self._player = Player("Player", pos=(0, 0), sprite="assets/tile_0085.png")
-        self._place_entity_on_map(self._player)
-
-    @staticmethod
-    def get_active_entities_ids(selected_map: str) -> dict[int, dict[str, Any]]:
-        """Get the list of NPCs in the current maps"""
-        return metadata.ENTITIES.get(selected_map, {})
+        self._player = Player("Player", pos=(0, 0))
 
     def init_active_entities(self, selected_map: str) -> None:
-        active_entities_attributes = self.get_active_entities_ids(selected_map)
+        active_entities_attributes = load_npc_metadata(selected_map)
+        if not active_entities_attributes:
+            log.debug(f"[{selected_map}] There are no NPCs to load.")
+            return
         # At the moment these are all NPCs:
         for entity_id, attributes in active_entities_attributes.items():
             self._active_npcs[entity_id] = Npc(
                 entity_id,
                 attributes.get("name"),
-                attributes.get("sprite"),
                 (attributes.get("x"), attributes.get("y")),
             )
-        # TODO: Place them on the map
 
     @property
     def active_map(self) -> Map:
@@ -80,30 +75,16 @@ class World:
     def _get_player(self):
         return self._player
 
-    def _place_entity_on_map(self, entity: Entity):
-        # TODO: Centre the entity instead of aligning top left
-        self._player.current_tile = self._active_map.tiles[self._player.y][self._player.x]
-        return self.active_map.place_entity(entity.id, entity.x, entity.y)
-
     def _move_player(self, direction: Direction) -> None:
         """Update Player and Map objects"""
         player = self._get_player()
-        self.active_map.reset_tile(player.x, player.y, new_block=player.current_tile)  # clear player from map
+        new_x, new_y = player.get_new_coord(direction)
         # log.debug(player)
+        if self.active_map.is_out_of_bounds(new_x, new_y):
+            # log.debug(f"Out of bounds! Requested X: {new_x}, requested Y: {new_y}")
+            return  # short-circuit if out of map boundaries
         player.move(direction)  # update player x/y-coord attributes
-        if player.x == len(self.active_map.tiles[0]):  # block player from going out of bounds right
-            self._player.x = len(self.active_map.tiles[0]) - 1
-            return
-        if player.x < 0:  # block player from going out of bounds left
-            self._player.x = 0
-            return
-        if player.y == len(self._active_map.tiles):  # block player from going out of bounds down
-            self._player.y = len(self._active_map.tiles) - 1
-            return
-        if player.y < 0:  # block player from going out of bounds up
-            self._player.y = 0
-            return
-        self._place_entity_on_map(player)  # replace player
+        # log.debug(player)
         # log.debug(self.active_map)
 
     def handle_direction(self, direction: Direction) -> None:
@@ -123,7 +104,7 @@ class World:
         player.run_flag = False
 
     def get_active_entity(self, entity_id: int) -> Union[Player, Npc, None]:
-        if entity_id == 1:
+        if entity_id == PLAYER_ID:
             return self._get_player()
 
         entity = self._active_npcs.get(entity_id)

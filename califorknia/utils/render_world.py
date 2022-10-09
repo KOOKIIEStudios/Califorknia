@@ -2,21 +2,46 @@
 from typing import Union
 
 import pygame
-from pygame import draw, Surface
+from pygame import Surface
+from pygame.surface import SurfaceType
 
 import logger
-from constants.constants import TILE_SIZE
+from constants.constants import TILE_SIZE, TILE_ASSETS_FOLDER, ENTITY_ASSETS_FOLDER, ENTITY_SIZE
 from entities.npc import Npc
 from entities.player import Player
 
 from califorknia.maps.map import Map
+from utils.yaml import load_tile_sprites, load_entity_sprites
 
 log = logger.get_logger(__name__)
 
 
+def _init_tile_dictionary() -> dict[int, Union[Surface, SurfaceType]]:
+    buffer = {}
+    file_name_dictionary = load_tile_sprites()
+    for tile_id, file_name in file_name_dictionary.items():
+        buffer[tile_id] = pygame.image.load(TILE_ASSETS_FOLDER.joinpath(file_name))
+    return buffer
+
+
+def _init_entity_dictionary() -> dict[int, Union[Surface, SurfaceType]]:
+    buffer = {}
+    file_name_dictionary = load_entity_sprites()
+    for tile_id, file_name in file_name_dictionary.items():
+        image = pygame.image.load(ENTITY_ASSETS_FOLDER.joinpath(file_name))
+        buffer[tile_id] = pygame.transform.scale(image, (TILE_SIZE, TILE_SIZE))
+    return buffer
+
+
+TILE_MAP = _init_tile_dictionary()
+ENTITY_MAP = _init_entity_dictionary()
+
+
 def _render_entity(entity, surface: Surface) -> None:
-    entity_size = 32
-    surface.blit(entity.image, (entity.x * entity_size, entity.y * entity_size))
+    surface.blit(
+        ENTITY_MAP.get(entity.id),
+        (entity.x * ENTITY_SIZE, entity.y * ENTITY_SIZE),
+    )
 
 
 def _render_entities(
@@ -30,15 +55,17 @@ def _render_entities(
 
 
 def _render_map(active_map: Map, surface: Surface) -> None:
-    for y in range(len(active_map.tiles)):
-        row = active_map.tiles[y]
-        for x in range(len(row)):
-            tile = row[x]
-            if tile > 0:
-                image = tiles_to_render.get(tile)
+    for row_number, row in enumerate(active_map.tiles):
+        for column_number, column in enumerate(row):
+            if column > 0:
+                image = TILE_MAP.get(column)
                 if image is None:
+                    log.warning(f"TILE NOT FOUND! Row {row_number}, column {column_number}")
                     continue
-                surface.blit(tiles_to_render.get(tile), (x * TILE_SIZE, y * TILE_SIZE))
+                surface.blit(
+                    image, (column_number * TILE_SIZE, row_number * TILE_SIZE)
+                )
+            # TODO: Action for tile id <= 0
 
 
 def render_world(
@@ -46,11 +73,3 @@ def render_world(
 ) -> None:
     _render_map(active_map, surface)
     _render_entities(player, npcs, surface)
-
-
-# TODO: autogenerate this map for all tiles in assets folder
-tiles_to_render = {
-    49: pygame.transform.scale(pygame.image.load("assets/tile_0049.png"), (TILE_SIZE, TILE_SIZE)),
-    10: pygame.image.load("assets/grass.png"),
-    11: pygame.image.load("assets/water.png")
-}

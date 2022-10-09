@@ -5,6 +5,7 @@ character should have.
 """
 import logger
 
+from constants.constants import PLAYER_ID, PLAYER_BASE_VELOCITY, PLAYER_SPEED_MODIFIER
 from constants.direction import Direction
 from califorknia.entities.dishes.dish import Dish
 from califorknia.entities.entity import Entity
@@ -18,18 +19,16 @@ class Player(Entity):
     """This class models the single player interacting with the game."""
     _inventory: list[Item] = []
     _dishes: list[Dish] = []
-    _base_velocity: int = 1
-    _run_modifier: int = 2
+    _base_velocity: int = PLAYER_BASE_VELOCITY
+    _run_modifier: int = PLAYER_SPEED_MODIFIER
     _run_flag: bool = False  # is currently running
-    _current_tile: int = 0
 
     def __init__(
         self,
         name: str,
-        sprite: str = None,
         pos: tuple[int, int] = (0, 0),
     ):
-        super().__init__(1, name, sprite, pos)
+        super().__init__(PLAYER_ID, name, pos)
 
     @property
     def base_velocity(self) -> int:
@@ -47,14 +46,6 @@ class Player(Entity):
     def run_flag(self, flag: bool):
         self._run_flag = flag
 
-    @property
-    def current_tile(self) -> int:
-        return self._current_tile
-
-    @current_tile.setter
-    def current_tile(self, tile: int):
-        self._current_tile = tile
-
     def _get_velocity(self):
         velocity = self.base_velocity
         if self.run_flag:
@@ -62,22 +53,26 @@ class Player(Entity):
         # log.debug(f"Current player velocity: {velocity}")
         return velocity
 
-    def move(self, direction: Direction):
+    def get_new_coord(self, direction: Direction) -> tuple[int, int]:
         velocity = self._get_velocity()
         match direction:
             case Direction.UP:
-                self.y -= velocity
+                return self.x, self.y - velocity
             case Direction.DOWN:
-                self.y += velocity
+                return self.x, self.y + velocity
             case Direction.LEFT:
-                self.x -= velocity
+                return self.x - velocity, self.y
             case Direction.RIGHT:
-                self.x += velocity
+                return self.x + velocity, self.y
+
+    def move(self, direction: Direction):
+        new_x, new_y = self.get_new_coord(direction)
+        self.x = new_x
+        self.y = new_y
         # TODO: This should render the player move over to the new tile
 
     def __repr__(self):
         text = f"Player([id: {self.id}, name: {self.name}, " \
-               f"sprite: {self._sprite}, pos: {self._pos}, " \
-               f"velocity: {self._get_velocity()}, dishes: TODO, " \
-               f"items: TODO])"
+               f"pos: {self._pos}, velocity: {self._get_velocity()}, " \
+               f"dishes: TODO, items: TODO])"
         return text

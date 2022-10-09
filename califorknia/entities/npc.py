@@ -21,15 +21,11 @@ class Npc(Entity):
         self,
         entity_id: int,
         name: str,
-        sprite: str = None,
         pos: tuple[int, int] = (0, 0),
     ):
-        super().__init__(entity_id, name, sprite, pos)
-        # TODO: Consider making sprite the Path object for a directory
-        #   Since there will probably be multiple sprites for one NPC
+        super().__init__(entity_id, name, pos)
 
     def __repr__(self):
-        return f"Npc([id: {self.id}, name: {self.name}, " \
-               f"sprite: {self._sprite}, pos: {self._pos}])"
+        return f"Npc([id: {self.id}, name: {self.name}, pos: {self._pos}])"
 
     pass
