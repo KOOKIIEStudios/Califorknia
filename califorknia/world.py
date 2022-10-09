@@ -9,6 +9,9 @@ from typing import Union
 from pygame import Surface
 
 import logger
+from califorknia.maps.special_tiles.grasstile import GrassTile
+from califorknia.maps.special_tiles.watertile import WaterTile
+from califorknia.maps.tile import Tile
 from constants.constants import PLAYER_ID
 from constants.direction import Direction
 from entities.npc import Npc
@@ -39,6 +42,11 @@ class World:
         self._active_map.parse_map("test_map")
 
         self._player = Player("Player", pos=(0, 0))
+
+        self._special_tiles: dict[int, Tile] = {
+            10: GrassTile(),
+            11: WaterTile()
+        }
 
     def init_active_entities(self, selected_map: str) -> None:
         active_entities_attributes = load_npc_metadata(selected_map)
@@ -83,7 +91,14 @@ class World:
         if self.active_map.is_out_of_bounds(new_x, new_y):
             # log.debug(f"Out of bounds! Requested X: {new_x}, requested Y: {new_y}")
             return  # short-circuit if out of map boundaries
-        player.move(direction)  # update player x/y-coord attributes
+        next_tile_id = self.active_map.tiles[new_y][new_x]
+        if next_tile_id in self._special_tiles:
+            tile_object = self._special_tiles[next_tile_id]
+            if tile_object.traversable:
+                player.move(direction)  # update player x/y-coord attributes
+                tile_object.on_player_walk()
+        else:
+            player.move(direction)  # update player x/y-coord attributes
         # log.debug(player)
         # log.debug(self.active_map)
 
