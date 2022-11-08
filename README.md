@@ -4,7 +4,7 @@ In this game, foodstuffs have come alive following the alien invasion of Califor
 BAA Studios has created this game for use in a sister project, where we train a neural network to play a game (using the NEAT method developed by Kenneth O. Stanley).
 
 ## Set-up
-1. [Install Python](https://community.chocolatey.org/packages/python/3.10.7) (3.10 or higher)
+1. [Install Python](https://community.chocolatey.org/packages/python/3.10.8) (3.10.0+, < 3.11)
 2. Run `setup.bat` (if on Windows)  
     - For Bash on Linux, navigate to the project directory, then create a virtual environment: `python -m venv venv`
     - Next, activate the virtual environment the `source venv/bin/activate`
@@ -12,7 +12,9 @@ BAA Studios has created this game for use in a sister project, where we train a 
 3. Run the game using the entry point `califorknia/main.py`
 
 ## Tools
-This project targets Python 3.10 and up, and makes use of [PyGame](https://pypi.org/project/pygame/). YAML configuration files are parsed with [ruamel.yaml](https://pypi.org/project/ruamel.yaml/), which supports the use of comments.
+This project targets Python 3.10, and makes use of [PyGame](https://pypi.org/project/pygame/). YAML configuration files are parsed with [ruamel.yaml](https://pypi.org/project/ruamel.yaml/), which supports the use of comments.  
+
+Due to our dependencies not supporting Python 3.11, we will be targetting Python 3.10.8 until further notice.  
 
 ## Style
 This project should follow [Google Style Guides](https://github.com/google/styleguide) where possible. We recommended the use of [PyLint](https://stackoverflow.com/questions/38134086/how-to-run-pylint-with-pycharm/46409649#46409649); Google's linting rules has already been included in the project directory as `pylintrc`.
